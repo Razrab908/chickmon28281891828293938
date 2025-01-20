@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Профиль RGT</title>
+  <style>
+    body {
+      background-image: url("https://kartinki.pics/uploads/posts/2021-07/1626194497_9-kartinkin-com-p-stilnii-chernii-fon-krasivo-9.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      min-width: 300px;
+      box-sizing: border-box;
+    }
+
+    .profile-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      position: relative;
+      top: -15px;
+      background-color: #282828;
+      border-radius: 5px;
+      padding: 10px 20px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .user-name {
+      font-size: 1.3rem;
+      margin-right: 10px;
+    }
+
+    .profile-data {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      margin-bottom: 15px;
+    }
+
+    .data-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .data-value {
+      font-size: 3rem;
+    }
+
+    #hashtag {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background-color: #282828;
+      border-radius: 5px;
+      padding: 5px 10px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .zcp-community {
+      position: absolute;
+      top: 5px;
+      left: 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #282828;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+
+    .zcp-community span {
+      font-size: 0.7rem;
+      font-weight: normal;
+    }
+
+    .bottom-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #282828;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      z-index: 10;
+    }
+
+    .panel-icon {
+      width: 40px;
+      height: 40px;
+            background-image: url("https://cdn-icons-png.flaticon.com/512/846/846551.png");
+      background-size: cover;
+      cursor: pointer;
+      margin-right: 15px;
+      filter: invert(1);
+    }
+
+    .panel-icon-2 {
+      width: 40px;
+      height: 40px;
+      background-image: url("https://cdn-icons-png.flaticon.com/512/25/25333.png");
+      background-size: cover;
+      cursor: pointer;
+      filter: invert(1);
+      margin-right: 15px;
+    }
+
+    .panel-icon-3 {
+      width: 40px;
+      height: 40px;
+      background-image: url("https://cdn-icons-png.flaticon.com/512/8/8172.png");
+      background-size: cover;
+      cursor: pointer;
+      filter: invert(1);
+    }
+
+    .data-item img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .chk-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .chk-container label {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .chk-container input[type="text"] {
+      width: 150px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+
+    /* Адаптивный дизайн */
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+        max-width: 95%;
+      }
+      .profile-title {
+        font-size: 1.6rem;
+      }
+      .user-name {
+        font-size: 1.1rem;
+      }
+      .data-value {
+        font-size: 2rem;
+      }
+      .zcp-community {
+        font-size: 0.9rem;
+      }
+      .zcp-community span {
+        font-size: 0.6rem;
+      }
+      .panel-icon, .panel-icon-2, .panel-icon-3 {
+        width: 30px;
+        height: 30px;
+      }
+      .data-item img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="zcp-community">ZCP<span>community</span></div>
+    <div class="profile-title">PROFILE</div>
+    <div class="user-info">
+      <div class="user-name" id="user-name"></div>
+    </div>
+    <div class="profile-data">
+      <div class="data-item" id="rating-item">
+      </div>
+    </div>
+    <div class="bottom-panel">
+      <div class="panel-icon"></div>
+            <div class="panel-icon-2" id="panel-icon-2"></div>
+      <div class="panel-icon-3" id="panel-icon-3"></div>
+    </div>
+    <div class="chk-container">
+      <label for="input-field">Введите промокод:</label>
+      <input type="text" id="input-field">
+      <div class="error-message" id="error-message"></div>
+    </div>
+  </div>
+
+  <script>
+    let chk;
+    let usedPromoCodes = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      chk = localStorage.getItem('chk') || "1234";
+      usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
+
+      const userName = "RGT";
+      const userNameElement = document.getElementById('user-name');
+      userNameElement.textContent = userName;
+
+      const ratingItemElement = document.getElementById('rating-item');
+      const imgElement = document.createElement('img');
+      imgElement.src = "https://img.cryptorank.io/coins/crypto_bot1718025192953.png";
+      imgElement.alt = "Рейтинг";
+      const ratingValue = document.createElement('div');
+      ratingValue.classList.add('data-value');
+      ratingValue.textContent = chk;
+      ratingItemElement.appendChild(imgElement);
+      ratingItemElement.appendChild(ratingValue);
+
+      const panelIcon2 = document.getElementById('panel-icon-2');
+      panelIcon2.addEventListener('click', () => {
+        window.open('dom.html', '_blank');
+      });
+
+      const panelIcon3 = document.getElementById(panel.icon-3');
+      panelIcon3.addEventListener('click', () => {
+        window.open('promo.html', '_blank');
+      });
+
+      const inputField = document.getElementById('input-field');
+      const errorMessage = document.getElementById('error-message');
+
+      inputField.addEventListener('input', () => {
+        errorMessage.textContent = "";
+
+        if (inputField.value === "hohoa") {
+          if (usedPromoCodes.includes("hohoa")) {
+            errorMessage.textContent = "Попробуйте позже";
+          } else {
+            chk = parseInt(chk) + 1;
+            localStorage.setItem('chk', chk);
+            usedPromoCodes.push("hohoa");
+            localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+            window.open('https://telegra.ph/Poluchenie-11-29-2', '_blank');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
