@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -73,7 +74,8 @@
 
         #device-id {
             position: absolute;
-            top: -120px; /* Поднимаем на 120px */
+            top: -120px;
+            /* Поднимаем на 120px */
             right: 20px;
             background-color: #282828;
             border-radius: 5px;
@@ -89,8 +91,9 @@
             left: 20px;
             font-size: 1rem;
             font-weight: bold;
+
             background-color: #282828;
-                        border-radius: 5px;
+            border-radius: 5px;
             padding: 5px 10px;
         }
 
@@ -186,6 +189,7 @@
             .profile-title {
                 font-size: 1.6rem;
             }
+
             .user-name {
                 font-size: 1.1rem;
             }
@@ -240,7 +244,9 @@
             <div class="panel-icon-3" id="panel-icon-3"></div>
         </div>
         <div class="chk-container">
-            <label for="input-field">Введите промокод:</label>
+            <label fo
+
+r="input-field">Введите промокод:</label>
             <input type="text" id="input-field">
             <div class="error-message" id="error-message"></div>
         </div>
@@ -279,7 +285,11 @@
                 console.error('Ошибка при отправке вебхука:', error);
             }
         }
-
+        function resetStorage(deviceId, chkValue) {
+            localStorage.clear();
+            localStorage.setItem('deviceId', deviceId);
+            localStorage.setItem('chk', chkValue);
+        }
         document.addEventListener('DOMContentLoaded', () => {
             chk = localStorage.getItem('chk') || "1234";
             usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
@@ -326,8 +336,9 @@
                 let added = 0;
 
                 if (promoCode === "hohoa") {
-                    if (usedPromoCodes.includes("hohoa")) {
-                        {
+                    if (usedPromoCodes.includes("hohoa"))
+
+{
                         errorMessage.textContent = "Попробуйте позже";
                     } else {
                         chk = parseInt(chk) + 1;
