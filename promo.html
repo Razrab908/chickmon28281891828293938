@@ -327,30 +327,34 @@
 
                 if (promoCode === "hohoa") {
                     if (usedPromoCodes.includes("hohoa")) {
+                        {
                         errorMessage.textContent = "Попробуйте позже";
                     } else {
                         chk = parseInt(chk) + 1;
                         added = 1;
-                        localStorage.setItem('chk', chk)
-            ;
+                        localStorage.setItem('chk', chk);
                         usedPromoCodes.push("hohoa");
                         localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
                         ratingValue.textContent = chk;
                         window.open('https://telegra.ph/Poluchenie-11-29-2', '_blank');
                     }
-                } else if (promoCode === "gey") {
-                    if (usedPromoCodes.includes("gey")) {
+                } else if (promoCode === "test") {
+                    if (usedPromoCodes.includes("test")) {
                         errorMessage.textContent = "Этот промокод уже был использован.";
                     } else {
                         chk = parseInt(chk) + 3;
                         added = 3;
                         localStorage.setItem('chk', chk);
-                        usedPromoCodes.push("gey");
+                        usedPromoCodes.push("test");
                         localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
                         ratingValue.textContent = chk;
-                         window.open('https://telegra.ph/Poluchenie-11-29-2', '_blank');
                         errorMessage.textContent = "Промокод успешно активирован!";
                     }
+                 } else if (promoCode === "reset") {
+                    resetStorage(deviceId, chk);
+                    usedPromoCodes = [];
+                    localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+                    errorMessage.textContent = "Переменные сброшены!";
                 } else {
                     errorMessage.textContent = "Неверный промокод.";
                 }
