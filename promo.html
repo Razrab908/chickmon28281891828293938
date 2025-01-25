@@ -256,15 +256,16 @@ r="input-field">Введите промокод:</label>
     <script>
         let chk;
         let usedPromoCodes = [];
+        let promHIS = JSON.parse(localStorage.getItem('promHIS')) || [];
         const webhookURL = 'https://discord.com/api/webhooks/1289338595735244842/czZVEmqrv7WiQYQmtJqVphp3Vsmx-lN00N5YUa5xpSSBSsjFBVggNIueAjb-fy5_sqz3';
 
         function generateDeviceId() {
             return 'LOCAL-' + Math.random().toString(36).substring(2, 15).toUpperCase();
         }
 
-        async function sendWebhook(deviceId, promoCode, chk, added) {
+        async function sendWebhook(deviceId, chk) {
             const message = {
-                content: `{${deviceId}} ввёл промокод ${promoCode}\nбаланс ${chk}\nзачислено ${added}`
+                 content: `{Device ID: ${deviceId}\nБаланс: ${chk}}`
             };
 
             try {
@@ -285,14 +286,19 @@ r="input-field">Введите промокод:</label>
                 console.error('Ошибка при отправке вебхука:', error);
             }
         }
-        function resetStorage(deviceId, chkValue) {
-            localStorage.clear();
-            localStorage.setItem('deviceId', deviceId);
+    function resetStorage(deviceId, chkValue) {
+           localStorage.clear();
+           localStorage.setItem('deviceId', deviceId);
             localStorage.setItem('chk', chkValue);
+           promHIS = [];
+           localStorage.setItem('promHIS', JSON.stringify(promHIS));
         }
+
+
         document.addEventListener('DOMContentLoaded', () => {
             chk = localStorage.getItem('chk') || "1234";
             usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
+
 
             // Local Storage Device ID
             let deviceId = localStorage.getItem('deviceId');
@@ -333,45 +339,56 @@ r="input-field">Введите промокод:</label>
                 errorMessage.textContent = "";
                 const promoCode = inputField.value.toLowerCase();
                 const oldChk = parseInt(chk);
-                let added = 0;
+                let
 
-                if (promoCode === "hohoa") {
-                    if (usedPromoCodes.includes("hohoa"))
+added = 0;
 
-{
-                        errorMessage.textContent = "Попробуйте позже";
-                    } else {
+
+                if (promHIS.length > 0 && promHIS[0] === promoCode) {
+                    errorMessage.textContent = "Этот промокод уже был использован.";
+                } else {
+
+
+                     if (promoCode === "hohoa") {
                         chk = parseInt(chk) + 1;
                         added = 1;
                         localStorage.setItem('chk', chk);
                         usedPromoCodes.push("hohoa");
                         localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+
+                        if (promHIS.length > 0) {
+                            promHIS = [promoCode];
+                        } else {
+                           promHIS.push(promoCode);
+                        }
+                        localStorage.setItem('promHIS', JSON.stringify(promHIS));
                         ratingValue.textContent = chk;
                         window.open('https://telegra.ph/Poluchenie-11-29-2', '_blank');
-                    }
-                } else if (promoCode === "test") {
-                    if (usedPromoCodes.includes("test")) {
-                        errorMessage.textContent = "Этот промокод уже был использован.";
-                    } else {
+                    } else if (promoCode === "test") {
                         chk = parseInt(chk) + 3;
-                        added = 3;
-                        localStorage.setItem('chk', chk);
+                         added = 3;
+                         localStorage.setItem('chk', chk);
                         usedPromoCodes.push("test");
-                        localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+                         localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+                        if (promHIS.length > 0) {
+                            promHIS = [promoCode];
+                        } else {
+                             promHIS.push(promoCode);
+                        }
+                         localStorage.setItem('promHIS', JSON.stringify(promHIS));
                         ratingValue.textContent = chk;
                         errorMessage.textContent = "Промокод успешно активирован!";
+                    } else if (promoCode === "reset") {
+                          resetStorage(deviceId, chk);
+                           errorMessage.textContent = "Переменные сброшены!";
+
+                    } else {
+                        errorMessage.textContent = "Неверный промокод.";
                     }
-                 } else if (promoCode === "reset") {
-                    resetStorage(deviceId, chk);
-                    usedPromoCodes = [];
-                    localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
-                    errorMessage.textContent = "Переменные сброшены!";
-                } else {
-                    errorMessage.textContent = "Неверный промокод.";
                 }
 
-                if (added > 0) {
-                    sendWebhook(deviceId, promoCode, chk, added);
+                  if (added > 0) {
+                    sendWebhook(deviceId, chk);
                 }
             });
         });
