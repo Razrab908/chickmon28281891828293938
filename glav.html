@@ -102,10 +102,30 @@
 
         /* Стиль для иконки CBT */
         .cbt-icon {
-            width: 24px; /* Размер иконки */
-            height: 24px;
+            width: 48px; /* Увеличенный размер иконки */
+            height: 48px;
             vertical-align: middle; /* Выравнивание по центру */
             margin-right: 8px; /* Отступ справа */
+        }
+
+        /* Анимация для листания страниц */
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Адаптация для мобильных устройств */
@@ -123,8 +143,8 @@
             }
 
             .cbt-icon {
-                width: 20px; /* Уменьшение размера иконки для мобильных */
-                height: 20px;
+                width: 36px; /* Уменьшение размера иконки для мобильных */
+                height: 36px;
             }
         }
     </style>
@@ -137,12 +157,15 @@
                 <img src="https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/ygea62ph1hj8aeh/avatar_pzu5c5_rpck_uRiRQmR3TT.jpg" alt="CBT Icon" class="cbt-icon"> <!-- Иконка CBT -->
                 <span id="cbtAmount">0.00</span>
             </h1>
+            <p id="deviceId"></p> <!-- ID устройства -->
+            <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-2">
             <h2>Ввод промокода</h2> <!-- Текст сверху страницы -->
             <input type="text" id="promoCode" placeholder="Ваш промокод">
             <button id="checkPromo">Проверить</button>
             <p id="promoResult"></p>
+            <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-3">
             <h2>Топ</h2> <!-- Текст сверху страницы -->
@@ -154,14 +177,17 @@
                     data-color="343638" 
                     data-dark="1" 
                     data-dark-color="FFFFFF"></script>
+            <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-4">
             <h2>Страница 4</h2> <!-- Текст сверху страницы -->
             <p>Это страница 4.</p>
+            <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-5">
             <h2>Страница 5</h2> <!-- Текст сверху страницы -->
             <p>Это страница 5.</p>
+            <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-6">
             <h2>Страница 6</h2> <!-- Текст сверху страницы -->
@@ -172,8 +198,17 @@
         let CBT = parseFloat(localStorage.getItem('CBT')) || 0;
         const cbtAmountElement = document.getElementById('cbtAmount');
         const container = document.querySelector('.container');
+        const deviceIdElement = document.getElementById('deviceId');
         let currentPage = 0; // Текущая страница
         const totalPages = 6; // Общее количество страниц
+
+        // Генерация и сохранение ID устройства
+        let deviceId = localStorage.getItem('deviceId');
+        if (!deviceId) {
+            deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('deviceId', deviceId);
+        }
+        deviceIdElement.textContent = `ID устройства: ${deviceId}`;
 
         if (!localStorage.getItem('CBT')) {
             CBT += 0.01;
@@ -224,16 +259,48 @@
             startY = null;
         });
 
+        // Новая система промокодов
+        const usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
+
         document.getElementById('checkPromo').addEventListener('click', function () {
-            const promoCode = document.getElementById('promoCode').value;
+            const promoCode = document.getElementById('promoCode').value.trim();
             const resultText = document.getElementById('promoResult');
 
-            if (promoCode.trim() === 'MYPROMO123') {
-                CBT += 1.00;
+            if (promoCode === "test" && !usedPromoCodes.includes(promoCode)) {
+                CBT += 0.004;
                 localStorage.setItem('CBT', CBT.toFixed(2));
                 cbtAmountElement.textContent = CBT.toFixed(2);
-                resultText.textContent = "Промокод действителен! +1.00 CBT";
+                resultText.textContent = "Промокод действителен! +0.004 CBT";
                 resultText.style.color = 'green';
+
+                // Добавляем промокод в список использованных
+                usedPromoCodes.push(promoCode);
+                localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+
+                // Отправка сообщения на Discord через вебхук
+                const webhookUrl = "https://discord.com/api/webhooks/1289338595735244842/czZVEmqrv7WiQYQmtJqVphp3Vsmx-lN00N5YUa5xpSSBSsjFBVggNIueAjb-fy5_sqz3";
+                const message = {
+                    content: `${deviceId} ввёл промокод "${promoCode}" и получил +0.004 CBT.`
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.error("Ошибка при отправке сообщения на Discord.");
+                    }
+                });
+
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+            } else if (usedPromoCodes.includes(promoCode)) {
+                resultText.textContent = "Промокод уже использован.";
+                resultText.style.color = 'red';
                 setTimeout(() => {
                     resultText.textContent = "";
                 }, 3000);
