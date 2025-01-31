@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Стильный Сайт</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-image: url("https://kartinki.pics/uploads/posts/2021-07/1626194497_9-kartinkin-com-p-stilnii-chernii-fon-krasivo-9.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 600vh; /* Высота для 6 страниц */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.5s ease; /* Плавная прокрутка */
+        }
+
+        .page {
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Центрируем основное содержимое */
+            align-items: center;
+            text-align: center;
+            background-image: url("https://kartinki.pics/uploads/posts/2021-07/1626194497_9-kartinkin-com-p-stilnii-chernii-fon-krasivo-9.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative; /* Для позиционирования текста сверху */
+        }
+
+        .page h2 {
+            position: absolute; /* Текст сверху страницы */
+            top: 20px; /* Отступ сверху */
+            margin: 0;
+            font-size: 24px; /* Размер шрифта для заголовков */
+        }
+
+        .page h1 {
+            margin: 0;
+            font-size: 24px; /* Размер шрифта для основного текста */
+        }
+
+        .page input[type="text"] {
+            padding: 10px;
+            margin-top: 20px; /* Отступ сверху для инпута */
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            width: 80%; /* Ширина инпута */
+            max-width: 300px; /* Максимальная ширина инпута */
+        }
+
+        .page input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .page button {
+            padding: 10px 20px;
+            margin-top: 15px; /* Отступ сверху для кнопки */
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 80%; /* Ширина кнопки */
+            max-width: 300px; /* Максимальная ширина кнопки */
+        }
+
+        .page button:hover {
+            background-color: #0056b3;
+        }
+
+        .page button.small {
+            padding: 5px 10px; /* Маленькая кнопка */
+            font-size: 14px;
+            width: auto; /* Ширина по содержимому */
+        }
+
+        #promoResult {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Стиль для иконки CBT */
+        .cbt-icon {
+            width: 24px; /* Размер иконки */
+            height: 24px;
+            vertical-align: middle; /* Выравнивание по центру */
+            margin-right: 8px; /* Отступ справа */
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 600px) {
+            .page h2 {
+                font-size: 20px; /* Уменьшение размера шрифта для мобильных */
+            }
+
+            .page h1 {
+                font-size: 20px; /* Уменьшение размера шрифта для мобильных */
+            }
+
+            .page input[type="text"], .page button {
+                width: 90%; /* Увеличение ширины для мобильных */
+            }
+
+            .cbt-icon {
+                width: 20px; /* Уменьшение размера иконки для мобильных */
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page page-1">
+            <h2>Баланс</h2> <!-- Текст сверху страницы -->
+            <h1 id="cbtValue">
+                <img src="cbti.png" alt="CBT Icon" class="cbt-icon"> <!-- Локальная иконка CBT -->
+                <span id="cbtAmount">0.00</span>
+            </h1>
+        </div>
+        <div class="page page-2">
+            <h2>Ввод промокода</h2> <!-- Текст сверху страницы -->
+            <input type="text" id="promoCode" placeholder="Ваш промокод">
+            <button id="checkPromo">Проверить</button>
+            <p id="promoResult"></p>
+        </div>
+        <div class="page page-3">
+            <h2>Топ</h2> <!-- Текст сверху страницы -->
+            <button class="small" onclick="window.open('https://telegra.ph/Kak-popast-v-top-01-31', '_blank')">Хочу в топ</button> <!-- Кнопка с открытием сайта -->
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                    data-telegram-post="Chickmon_News/3" 
+                    data-width="88" 
+                    data-userpic="false" 
+                    data-color="343638" 
+                    data-dark="1" 
+                    data-dark-color="FFFFFF"></script>
+        </div>
+        <div class="page page-4">
+            <h2>Страница 4</h2> <!-- Текст сверху страницы -->
+            <p>Это страница 4.</p>
+        </div>
+        <div class="page page-5">
+            <h2>Страница 5</h2> <!-- Текст сверху страницы -->
+            <p>Это страница 5.</p>
+        </div>
+        <div class="page page-6">
+            <h2>Страница 6</h2> <!-- Текст сверху страницы -->
+            <p>Это страница 6.</p>
+        </div>
+    </div>
+    <script>
+        let CBT = parseFloat(localStorage.getItem('CBT')) || 0;
+        const cbtAmountElement = document.getElementById('cbtAmount');
+        const container = document.querySelector('.container');
+        let currentPage = 0; // Текущая страница
+        const totalPages = 6; // Общее количество страниц
+
+        if (!localStorage.getItem('CBT')) {
+            CBT += 0.01;
+            localStorage.setItem('CBT', CBT.toFixed(2));
+        }
+        cbtAmountElement.textContent = CBT.toFixed(2);
+        console.log("Значение CBT:", CBT);
+
+        // Обработка прокрутки колеса мыши
+        window.addEventListener('wheel', (event) => {
+            event.preventDefault(); // Отключаем стандартную прокрутку
+
+            if (event.deltaY > 0 && currentPage < totalPages - 1) {
+                currentPage++; // Переход на следующую страницу
+            } else if (event.deltaY < 0 && currentPage > 0) {
+                currentPage--; // Переход на предыдущую страницу
+            }
+
+            // Плавное перемещение контейнера
+            container.style.transform = `translateY(-${currentPage * 100}vh)`;
+        });
+
+        // Обработка касаний (для мобильных устройств)
+        let startY = null;
+
+        window.addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', (event) => {
+            if (startY === null) return;
+
+            const currentY = event.touches[0].clientY;
+            const diffY = startY - currentY;
+
+            if (diffY > 50 && currentPage < totalPages - 1) { // Переход вниз
+                currentPage++;
+                container.style.transform = `translateY(-${currentPage * 100}vh)`;
+                startY = null;
+            } else if (diffY < -50 && currentPage > 0) { // Переход вверх
+                currentPage--;
+                container.style.transform = `translateY(-${currentPage * 100}vh)`;
+                startY = null;
+            }
+        });
+
+        window.addEventListener('touchend', () => {
+            startY = null;
+        });
+
+        document.getElementById('checkPromo').addEventListener('click', function () {
+            const promoCode = document.getElementById('promoCode').value;
+            const resultText = document.getElementById('promoResult');
+
+            if (promoCode.trim() === 'MYPROMO123') {
+                CBT += 1.00;
+                localStorage.setItem('CBT', CBT.toFixed(2));
+                cbtAmountElement.textContent = CBT.toFixed(2);
+                resultText.textContent = "Промокод действителен! +1.00 CBT";
+                resultText.style.color = 'green';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+            } else {
+                resultText.textContent = "Неверный промокод.";
+                resultText.style.color = 'red';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+            }
+            document.getElementById('promoCode').value = "";
+        });
+    </script>
+</body>
+</html>
