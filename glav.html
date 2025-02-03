@@ -128,15 +128,6 @@
             }
         }
 
-        /* ID устройства в правом верхнем углу */
-        #deviceId {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 16px;
-            color: #fff;
-        }
-
         /* Адаптация для мобильных устройств */
         @media (max-width: 600px) {
             .page h2 {
@@ -166,7 +157,7 @@
                 <img src="https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/ygea62ph1hj8aeh/avatar_pzu5c5_rpck_uRiRQmR3TT.jpg" alt="CBT Icon" class="cbt-icon"> <!-- Иконка CBT -->
                 <span id="cbtAmount">0.00</span>
             </h1>
-            <div id="deviceId"></div> <!-- ID устройства -->
+            <p id="deviceId"></p> <!-- ID устройства -->
             <div class="scroll-hint">⬇️</div> <!-- Анимация для листания -->
         </div>
         <div class="page page-2">
@@ -210,24 +201,10 @@
         const deviceIdElement = document.getElementById('deviceId');
         let currentPage = 0; // Текущая страница
         const totalPages = 6; // Общее количество страниц
-
-        // Генерация и сохранение ID устройства
-        let deviceId = localStorage.getItem('deviceId');
-        if (!deviceId) {
-            deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            localStorage.setItem('deviceId', deviceId);
-        }
-        deviceIdElement.textContent = deviceId; // Отображаем ID устройства
-
-        if (!localStorage.getItem('CBT')) {
-            CBT += 0.01;
-            localStorage.setItem('CBT', CBT.toFixed(2));
-        }
-        cbtAmountElement.textContent = CBT.toFixed(2);
-        console.log("Значение CBT:", CBT);
+        let promoBlockedUntil = localStorage.getItem('promoBlockedUntil') || 0;
 
         // Ключ для расшифровки
-        const key = "QWE²ASDrt⁵yfghUАIOJKLPzx¹cVPБQMM³mdm.⁶msk⁰Lekw⁴lapx.dk⁹qppKkВmnj⁷OJГWMLS⁸OXДC6QL1QkJФAsQ7Wp3oFGЖv8En2jQОoxSziOf9G4ej:hwkJDLQL5APZ0L.CJWN";
+        const key = "sღpठdლaओrფषकზjऐხkणlჟईცछgჰfऋhჭwऊqქएძऌუञოजბढჯ;औङvტ.आiइeउxएzओ2क्षत्रoज्ञcაmგდ1ეnვ9თuი3კმbნ4პ8yრ7ს5შtჩ6წ";
 
         // Функция для расшифровки текста
         function decrypt(text) {
@@ -238,90 +215,26 @@
                 if (index === -1) {
                     decrypted += char; // Если символ не найден, оставляем как есть
                 } else {
-                    decrypted += key[(index + 1) % key.length]; // Заменяем на следующий символ
+                    decrypted += key[(index - 1) % key.length]; // Заменяем на следующий символ
                 }
             }
             return decrypted;
         }
 
-        // Функция для проверки промокода
-        function checkPromoCode(promoCode) {
-            const decrypted = decrypt(promoCode);
-            const parts = decrypted.split("А");
-
-            if (parts.length < 5) return false; // Промокод должен содержать 5 частей
-
-            const [idPart, sumPart, datePart, timePart, signaturePart] = parts;
-
-            // Проверка ID устройства
-            const id = idPart.split("Б")[0];
-            if (id !== deviceId && id !== "1234") return false;
-
-            // Проверка суммы
-            const sum = parseFloat(sumPart.split("В")[0]);
-            if (isNaN(sum)) return false;
-
-            // Проверка даты
-            const currentDate = new Date();
-            const inputDate = new Date(datePart.split("Г")[0].replace(/\./g, "-"));
-            if (
-                currentDate.getFullYear() !== inputDate.getFullYear() ||
-                currentDate.getMonth() !== inputDate.getMonth() ||
-                currentDate.getDate() !== inputDate.getDate()
-            ) return false;
-
-            // Проверка времени
-            const currentTime = new Date();
-            const inputTime = timePart.split("Д")[0].split(".");
-            const inputHours = parseInt(inputTime[0]);
-            const inputMinutes = parseInt(inputTime[1]);
-
-            if (
-                Math.abs(currentTime.getHours() - inputHours) > 0 ||
-                Math.abs(currentTime.getMinutes() - inputMinutes) > 3
-            ) return false;
-
-            // Проверка подписи
-            const signature = signaturePart.split("Ф")[0];
-            if (signature !== "IvChik") return false;
-
-            return sum; // Возвращаем сумму, если все проверки пройдены
+        // Генерация и сохранение ID устройства
+        let deviceId = localStorage.getItem('deviceId');
+        if (!deviceId) {
+            deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('deviceId', deviceId);
         }
+        deviceIdElement.textContent = `ID устройства: ${deviceId}`;
 
-        // Обработка ввода промокода
-        document.getElementById('checkPromo').addEventListener('click', function () {
-            const promoCode = document.getElementById('promoCode').value.trim();
-            const resultText = document.getElementById('promoResult');
-
-            if (localStorage.getItem('promoCooldown')) {
-                resultText.textContent = "Ввод промокодов заблокирован на 5 минут.";
-                resultText.style.color = 'red';
-                return;
-            }
-
-            const sum = checkPromoCode(promoCode);
-            if (sum) {
-                CBT += sum;
-                localStorage.setItem('CBT', CBT.toFixed(2));
-                cbtAmountElement.textContent = CBT.toFixed(2);
-                resultText.textContent = `Промокод действителен! +${sum.toFixed(3)} CBT`;
-                resultText.style.color = 'green';
-
-                // Блокировка ввода промокодов на 5 минут
-                localStorage.setItem('promoCooldown', Date.now());
-                setTimeout(() => {
-                    localStorage.removeItem('promoCooldown');
-                }, 5 * 60 * 1000); // 5 минут
-            } else {
-                resultText.textContent = "Неверный промокод.";
-                resultText.style.color = 'red';
-            }
-
-            setTimeout(() => {
-                resultText.textContent = "";
-            }, 3000);
-            document.getElementById('promoCode').value = "";
-        });
+        if (!localStorage.getItem('CBT')) {
+            CBT += 0.01;
+            localStorage.setItem('CBT', CBT.toFixed(2));
+        }
+        cbtAmountElement.textContent = CBT.toFixed(2);
+        console.log("Значение CBT:", CBT);
 
         // Обработка прокрутки колеса мыши
         window.addEventListener('wheel', (event) => {
@@ -363,6 +276,110 @@
 
         window.addEventListener('touchend', () => {
             startY = null;
+        });
+
+        function checkPromoCode(promoCode) {
+            const decrypted = decrypt(promoCode); // Расшифровка промокода
+            console.log("Расшифрованный промокод:", decrypted); // Для отладки
+
+            const parts = decrypted.split(';');
+
+            if (parts.length !== 5) {
+                return "Неверный формат промокода";
+            }
+
+            const [requiredDeviceID, cbtAmount, requiredDate, requiredTime, requiredSignature] = parts;
+            const currentDate = new Date();
+            const userDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+            const userTime = new Date();
+
+            const promoDate = new Date(requiredDate);
+            const [hours, minutes] = requiredTime.split(':').map(Number);
+            const promoTime = new Date(userDate.getFullYear(), userDate.getMonth(), userDate.getDate(), hours, minutes);
+
+            console.log("User Date:", userDate.toLocaleDateString());
+            console.log("Promo Date:", promoDate.toLocaleDateString());
+            console.log("User Time:", userTime.toLocaleTimeString());
+            console.log("Promo Time:", promoTime.toLocaleTimeString());
+
+            // Получить разницу в минутах
+            const timeDifference = Math.abs(userTime - promoTime) / (1000 * 60);
+
+            // Проверка 5. Подпись
+            if (requiredSignature !== 'IvChik') {
+                console.log("signature check fail", requiredSignature);
+                return "Неверная подпись промокода";
+            }
+            // Проверка 1. ID device
+            if (requiredDeviceID !== deviceId && requiredDeviceID !== '1234') {
+                console.log("device ID check fail", requiredDeviceID, deviceId);
+                return "Промокод не для вашего устройства";
+            }
+            // Проверка 3. Дата
+            if (userDate.toLocaleDateString() !== promoDate.toLocaleDateString()) {
+                console.log("date check fail", userDate.toLocaleDateString(), promoDate.toLocaleDateString());
+                return "Неверная дата промокода";
+            }
+
+            // Проверка 4. Время
+            if (timeDifference > 3) {
+                console.log("time check fail", timeDifference);
+                return "Неверное время промокода";
+            }
+            console.log("success");
+            return parseFloat(cbtAmount);
+        }
+
+        document.getElementById('checkPromo').addEventListener('click', function () {
+            const promoCodeInput = document.getElementById('promoCode').value.trim();
+            const resultText = document.getElementById('promoResult');
+            const now = Date.now();
+            if (now < promoBlockedUntil) {
+                const remainingTime = Math.ceil((promoBlockedUntil - now) / 1000 / 60); // В минутах
+                resultText.textContent = `Подождите ${remainingTime} минут до следующего ввода.`;
+                resultText.style.color = 'red';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+                return;
+            }
+            const check = checkPromoCode(promoCodeInput);
+            if (typeof check === 'number') {
+                CBT += check;
+                localStorage.setItem('CBT', CBT.toFixed(2));
+                cbtAmountElement.textContent = CBT.toFixed(2);
+                resultText.textContent = `Промокод активирован! +${check} CBT`;
+                resultText.style.color = 'green';
+                const now = Date.now();
+                promoBlockedUntil = now + (5 * 60 * 1000); // блокируем на 5 минут
+                localStorage.setItem('promoBlockedUntil', promoBlockedUntil);
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+
+                const webhookUrl = "https://discord.com/api/webhooks/1289338595735244842/czZVEmqrv7WiQYQmtJqVphp3Vsmx-lN00N5YUa5xpSSBSsjFBVggNIueAjb-fy5_sqz3";
+                const message = {
+                    content: `${deviceId} ввёл промокод "${promoCodeInput}" и получил +${check} CBT.`
+                };
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.error("Ошибка при отправке сообщения на Discord.");
+                    }
+                });
+            } else {
+                resultText.textContent = check;
+                resultText.style.color = 'red';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+            }
+            document.getElementById('promoCode').value = "";
         });
     </script>
 </body>
