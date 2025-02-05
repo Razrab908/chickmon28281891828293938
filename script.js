@@ -270,7 +270,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 if (!isMobile) {
     alert("Доступ с ПК запрещён. Сайт будет закрыт.");
     window.close(); // Закрыть сайт
-}
+});
 
 // Логика для уведомления
 const notification = document.getElementById('notification');
@@ -286,4 +286,5 @@ function handleNotification(choice) {
     }
     notification.style.display = 'none'; // Скрываем уведомление
     localStorage.setItem('hasSeenNotification', true); // Сохраняем, что уведомление было показано
+}
 });
