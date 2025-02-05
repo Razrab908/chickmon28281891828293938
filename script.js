@@ -259,7 +259,6 @@ window.addEventListener('touchmove', (event) => {
         prevButton();
         startX = null;
     }
-});
 
 window.addEventListener('touchend', () => {
     startX = null;
