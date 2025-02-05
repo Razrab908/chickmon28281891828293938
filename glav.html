@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Стильный Сайт</title>
+    <link rel="stylesheet" href="style.css"> <!-- Подключаем стили -->
+</head>
+<body>
+    <div class="container">
+        <div class="page page-1">
+            <h2>Баланс</h2>
+            <h1 id="cbtValue">
+                <img src="https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/ygea62ph1hj8aeh/avatar_pzu5c5_rpck_uRiRQmR3TT.jpg" alt="CBT Icon" class="cbt-icon">
+                <span id="cbtAmount">0.00</span>
+            </h1>
+            <p id="deviceId"></p>
+            <div class="scroll-hint">⬇️</div>
+        </div>
+        <div class="page page-2">
+            <h2>Ввод промокода</h2>
+            <input type="text" id="promoCode" placeholder="Ваш промокод">
+            <button id="checkPromo">Проверить</button>
+            <p id="promoResult"></p>
+            <div class="scroll-hint">⬇️</div>
+        </div>
+        <div class="page page-3">
+            <h2>Топ</h2>
+            <button class="small" onclick="window.open('https://telegra.ph/Kak-popast-v-top-01-31', '_blank')">Хочу в топ</button>
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                    data-telegram-post="Chickmon_News/3" 
+                    data-width="88" 
+                    data-userpic="false" 
+                    data-color="343638" 
+                    data-dark="1" 
+                    data-dark-color="FFFFFF"></script>
+            <div class="scroll-hint">⬇️</div>
+        </div>
+        <div class="page page-4">
+            <h2>Задание</h2>
+            <div class="swipe-container">
+                <button class="swipe-button left" onclick="prevButton()">⬅️</button>
+                <button class="swipe-button center" id="centerButton" onclick="openLink()">1</button>
+                <button class="swipe-button right" onclick="nextButton()">➡️</button>
+            </div>
+            <button class="add-task-button" onclick="window.open('https://telegra.ph/Dobavit-zadanie-02-04', '_blank')">Добавить задание</button>
+            <div class="scroll-hint">⬇️</div>
+        </div>
+        <div class="page page-5">
+            <h2>Реферальная система</h2>
+            <button onclick="window.open('https://telegra.ph/Referalnaya-sistema-02-04-2', '_blank')">Реферальная система</button>
+            <div class="scroll-hint">⬇️</div>
+        </div>
+        <div class="page page-6">
+            <h2>Информация</h2>
+            <button onclick="window.open('https://telegra.ph/Informaciya-02-04-16', '_blank')">Прочитать информацию</button>
+        </div>
+    </div>
+    <script src="script.js"></script> <!-- Подключаем JavaScript -->
+</body>
+</html>
