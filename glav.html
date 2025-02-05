@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css"> <!-- Подключаем стили -->
 </head>
 <body>
+    <!-- Уведомление для новых пользователей -->
+<div class="notification" id="notification">
+    <p>Хотите узнать больше о Chickmon?</p>
+    <button class="yes" onclick="handleNotification(true)">Да</button>
+    <button class="no" onclick="handleNotification(false)">Нет</button>
+</div>
     <div class="container">
         <div class="page page-1">
             <h2>Баланс</h2>
