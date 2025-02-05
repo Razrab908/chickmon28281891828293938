@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit: cover">
     <title>Стильный Сайт</title>
     <style>
         body {
@@ -204,7 +204,9 @@
         .page-4 .swipe-button.center {
             opacity: 1;
             transform: translateX(0);
-            z-index: 1;
+            z-index: 1
+
+;
         }
 
         .page-4 .swipe-button.active {
@@ -259,6 +261,34 @@
 .page-4 .add-task-button:active {
     transform: translateY(0);
 }
+
+/* Стили для уведомления */
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.notification button {
+    margin: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.notification button:hover {
+    background-color: #367c39;
+}
     </style>
 </head>
 <body>
@@ -300,7 +330,9 @@
             </div>
             <button class="add-task-button" onclick="window.open('https://telegra.ph/Dobavit-zadanie-02-04', '_blank')">Добавить задание</button>
             <div class="scroll-hint">↓</div>
-        </div>
+        \
+
+</div>
         <div class="page page-5">
             <h2>Реферальная система</h2>
             <button onclick="window.open('https://telegra.ph/Referalnaya-sistema-02-04-2', '_blank')">Реферальная система</button>
@@ -311,7 +343,17 @@
             <button onclick="window.open('https://telegra.ph/Informaciya-02-04-16', '_blank')">Прочитать информацию</button>
         </div>
     </div>
+
+    <div id="notificationContainer"></div>
+
     <script>
+        // Проверка на мобильное устройство
+        if (navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i) === null) {
+            // Закрываем сайт, если он открыт на ПК
+            document.body.innerHTML = "<h1>Доступ только с мобильных устройств</h1>";
+            document.body.style.cssText = "background-color:#000; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh;";
+            throw new Error('Сайт предназначен для мобильных устройств.');
+        }
         let CBT = parseFloat(localStorage.getItem('CBT')) || 0;
         const cbtAmountElement = document.getElementById('cbtAmount');
         const container = document.querySelector('.container');
@@ -377,7 +419,9 @@
         window.addEventListener('touchmove', (event) => {
             if (startY === null) return;
 
-            const currentY = event.touches[0].clientY;
+            const currentY
+
+= event.touches[0].clientY;
             const diffY = startY - currentY;
 
             if (diffY > 50 && currentPage < totalPages - 1) { // Переход вниз
@@ -461,14 +505,15 @@
                 return;
             }
             const check = checkPromoCode(promoCodeInput);
-            if (typeof check === 'number') {
+
+if (typeof check === 'number') {
                 CBT += check;
                 localStorage.setItem('CBT', CBT.toFixed(2));
                 cbtAmountElement.textContent = CBT.toFixed(2);
                 resultText.textContent = `Промокод активирован! +${check} CBT`;
                 resultText.style.color = 'green';
                 const now = Date.now();
-                promoBlockedUntil = now + (5 * 60 * 1000); // блокируем на 5 минут
+                promoBlockedUntil = now + (5 × 60 × 1000); // блокируем на 5 минут
                 localStorage.setItem('promoBlockedUntil', promoBlockedUntil);
                 setTimeout(() => {
                     resultText.textContent = "";
@@ -563,6 +608,38 @@
         window.addEventListener('touchend', () => {
             startX = null;
         });
+        // Уведомление для новых пользователей
+        window.onload = function() {
+            const hasSeenNotification = localStorage.getItem('hasSeenNotification');
+            if (!hasSeenNotification) {
+                showNotification();
+            }
+        };
+
+        function showNotification() {
+            const notificati
+
+onContainer = document.getElementById('notificationContainer');
+            const notificationDiv = document.createElement('div');
+            notificationDiv.className = 'notification';
+            notificationDiv.innerHTML = `
+                <p>Хотите узнать больше о Chickmon?</p>
+                <button onclick="openInfoPage()">Да</button>
+                <button onclick="closeNotification()">Нет</button>
+            `;
+            notificationContainer.appendChild(notificationDiv);
+        }
+
+        function openInfoPage() {
+            window.open('https://telegra.ph/Informaciya-02-04-16', '_blank');
+            closeNotification();
+        }
+
+        function closeNotification() {
+            const notificationContainer = document.getElementById('notificationContainer');
+            notificationContainer.innerHTML = ''; // Удаляем уведомление из DOM
+            localStorage.setItem('hasSeenNotification', 'true');
+        }
     </script>
 </body>
 </html>
