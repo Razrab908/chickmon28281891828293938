@@ -264,3 +264,26 @@ window.addEventListener('touchmove', (event) => {
 window.addEventListener('touchend', () => {
     startX = null;
 });
+
+// Запрет доступа через ПК
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+if (!isMobile) {
+    alert("Доступ с ПК запрещён. Сайт будет закрыт.");
+    window.close(); // Закрыть сайт
+}
+
+// Логика для уведомления
+const notification = document.getElementById('notification');
+const hasSeenNotification = localStorage.getItem('hasSeenNotification');
+
+if (!hasSeenNotification) {
+    notification.style.display = 'block'; // Показываем уведомление
+}
+
+function handleNotification(choice) {
+    if (choice) {
+        window.open('https://telegra.ph/Informaciya-02-04-16', '_blank'); // Открываем сайт
+    }
+    notification.style.display = 'none'; // Скрываем уведомление
+    localStorage.setItem('hasSeenNotification', true); // Сохраняем, что уведомление было показано
+});
