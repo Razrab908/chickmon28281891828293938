@@ -1,1 +1,646 @@
-j
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Стильный Сайт</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-image: url("https://kartinki.pics/uploads/posts/2021-07/1626194497_9-kartinkin-com-p-stilnii-chernii-fon-krasivo-9.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 600vh; /* Высота для 6 страниц */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.5s ease; /* Плавная прокрутка */
+        }
+
+        .page {
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Центрируем основное содержимое */
+            align-items: center;
+            text-align: center;
+            background-image: url("https://kartinki.pics/uploads/posts/2021-07/1626194497_9-kartinkin-com-p-stilnii-chernii-fon-krasivo-9.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative; /* Для позиционирования текста сверху */
+        }
+
+        .page h2 {
+            position: absolute; /* Текст сверху страницы */
+            top: 20px; /* Отступ сверху */
+            margin: 0;
+            font-size: 24px; /* Размер шрифта для заголовков */
+        }
+
+        .page h1 {
+            margin: 0;
+            font-size: 24px; /* Размер шрифта для основного текста */
+        }
+
+        .page input[type="text"] {
+            padding: 10px;
+            margin-top: 20px; /* Отступ сверху для инпута */
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            width: 80%; /* Ширина инпута */
+            max-width: 300px; /* Максимальная ширина инпута */
+        }
+
+        .page input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Общий стиль для кнопок */
+        .page button {
+            padding: 10px 20px;
+            margin-top: 15px; /* Отступ сверху для кнопки */
+            border: none;
+            border-radius: 10px; /* Закругленные углы */
+            background-color: #1e1e1e; /* Темный фон */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 80%; /* Ширина кнопки */
+            max-width: 300px; /* Максимальная ширина кнопки */
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень */
+        }
+
+        .page button:hover {
+            background-color: #333; /* Светлее при наведении */
+            transform: translateY(-2px); /* Поднимаем кнопку */
+        }
+
+        .page button:active {
+            transform: translateY(0); /* Возвращаем на место */
+        }
+
+        .page button.small {
+            padding: 5px 10px; /* Маленькая кнопка */
+            font-size: 14px;
+            width: auto; /* Ширина по содержимому */
+        }
+
+        #promoResult {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Стиль для иконки CBT */
+        .cbt-icon {
+            width: 64px; /* Увеличенный размер иконки */
+            height: 64px;
+            border-radius: 50%; /* Закругленная иконка */
+            vertical-align: middle; /* Выравнивание по центру */
+            margin-right: 8px; /* Отступ справа */
+        }
+
+        /* Анимация для листания страниц */
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 600px) {
+            .page h2 {
+                font-size: 20px; /* Уменьшение размера шрифта для мобильных */
+            }
+
+            .page h1 {
+                font-size: 20px; /* Уменьшение размера шрифта для мобильных */
+            }
+
+            .page input[type="text"], .page button {
+                width: 90%; /* Увеличение ширины для мобильных */
+            }
+
+            .cbt-icon {
+                width: 48px; /* Уменьшение размера иконки для мобильных */
+                height: 48px;
+            }
+        }
+
+        /* Стиль для ID устройства */
+        #deviceId {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Стиль для кнопок на странице 4 */
+        .page-4 .swipe-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-4 .swipe-button {
+            position: absolute;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            color: #fff;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-4 .swipe-button.left {
+            left: 10%;
+            opacity: 0;
+            transform: translateX(-50%);
+        }
+
+        .page-4 .swipe-button.right {
+            right: 10%;
+            opacity: 0;
+            transform: translateX(50%);
+        }
+
+        .page-4 .swipe-button.center {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        .page-4 .swipe-button.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Анимация перелистывания */
+        @keyframes swipeLeft {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes swipeRight {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Обновленный стиль для кнопки "Добавить задание" */
+        .page-4 .add-task-button {
+            position: absolute;
+            bottom: 100px; /* Поднимаем кнопку выше */
+            width: 80%;
+            max-width: 300px;
+            background-color: #1e1e1e; /* Тёмный фон */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .page-4 .add-task-button:hover {
+            background-color: #333; /* Светлее при наведении */
+            transform: translateY(-2px);
+        }
+
+        .page-4 .add-task-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page page-1">
+            <h2>Баланс</h2>
+            <h1 id="cbtValue">
+                <img src="https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/ygea62ph1hj8aeh/avatar_pzu5c5_rpck_uRiRQmR3TT.jpg" alt="CBT Icon" class="cbt-icon">
+                <span id="cbtAmount">0.00</span>
+            </h1>
+            <p id="deviceId"></p>
+            <div class="scroll-hint">↓</div>
+        </div>
+        <div class="page page-2">
+            <h2>Ввод промокода</h2>
+            <input type="text" id="promoCode" placeholder="Ваш промокод">
+            <button id="checkPromo">Проверить</button>
+            <p id="promoResult"></p>
+            <div class="scroll-hint">↓</div>
+        </div>
+        <div class="page page-3">
+            <h2>Топ</h2>
+            <button class="small" onclick="window.open('https://telegra.ph/Kak-popast-v-top-01-31', '_blank')">Хочу в топ</button>
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                    data-telegram-post="Chickmon_News/3" 
+                    data-width="88" 
+                    data-userpic="false" 
+                    data-color="343638" 
+                    data-dark="1" 
+                    data-dark-color="FFFFFF"></script>
+            <div class="scroll-hint">↓</div>
+        </div>
+        <div class="page page-4">
+            <h2>Задание</h2>
+            <div class="swipe-container">
+                <button class="swipe-button left" onclick="prevButton()">⬅️</button>
+                <button class="swipe-button center" id="centerButton" onclick="openLink()">1</button>
+                <button class="swipe-button right" onclick="nextButton()">➡️</button>
+            </div>
+            <button class="add-task-button" onclick="window.open('https://telegra.ph/Dobavit-zadanie-02-04', '_blank')">Добавить задание</button>
+            <div class="scroll-hint">↓</div>
+        </div>
+        <div class="page page-5">
+            <h2>Реферальная система</h2>
+            <button onclick="window.open('https://telegra.ph/Referalnaya-sistema-02-04-2', '_blank')">Реферальная система</button>
+            <div class="scroll-hint">↓</div>
+        </div>
+        <div class="page page-6">
+            <h2>Информация</h2>
+            <button onclick="window.open('https://telegra.ph/Informaciya-02-04-16', '_blank')">Прочитать информацию</button>
+        </div>
+    </div>
+    <script>
+        // Запрет доступа через ПК
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        if (!isMobileDevice()) {
+            document.body.innerHTML = '<h1 style="text-align: center; margin-top: 50px;">Доступ запрещён. Сайт доступен только на мобильных устройствах.</h1>';
+            document.body.style.backgroundColor = '#000';
+            document.body.style.color = '#fff';
+            document.body.style.fontFamily = 'sans-serif';
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+        } else {
+            // Уведомление для новых пользователей
+            if (!localStorage.getItem('visited')) {
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '1000';
+
+                const modalContent = document.createElement('div');
+                modalContent.style.backgroundColor = '#1e1e1e';
+                modalContent.style.padding = '20px';
+                modalContent.style.borderRadius = '10px';
+                modalContent.style.textAlign = 'center';
+
+                const modalText = document.createElement('p');
+                modalText.textContent = 'Хотите узнать больше о Chickmon?';
+                modalText.style.color = '#fff';
+                modalText.style.fontSize = '18px';
+
+                const yesButton = document.createElement('button');
+                yesButton.textContent = 'Да';
+                yesButton.style.padding = '10px 20px';
+                yesButton.style.margin = '10px';
+                yesButton.style.border = 'none';
+                yesButton.style.borderRadius = '5px';
+                yesButton.style.backgroundColor = '#333';
+                yesButton.style.color = '#fff';
+                yesButton.style.cursor = 'pointer';
+
+                const noButton = document.createElement('button');
+                noButton.textContent = 'Нет';
+                noButton.style.padding = '10px 20px';
+                noButton.style.margin = '10px';
+                noButton.style.border = 'none';
+                noButton.style.borderRadius = '5px';
+                noButton.style.backgroundColor = '#333';
+                noButton.style.color = '#fff';
+                noButton.style.cursor = 'pointer';
+
+                yesButton.addEventListener('click', () => {
+                    window.open('https://telegra.ph/Informaciya-02-04-16', '_blank');
+                    modal.remove();
+                    localStorage.setItem('visited', 'true');
+                });
+
+                noButton.addEventListener('click', () => {
+                    modal.remove();
+                    localStorage.setItem('visited', 'true');
+                });
+
+                modalContent.appendChild(modalText);
+                modalContent.appendChild(yesButton);
+                modalContent.appendChild(noButton);
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+            }
+        }
+
+        let CBT = parseFloat(localStorage.getItem('CBT')) || 0;
+        const cbtAmountElement = document.getElementById('cbtAmount');
+        const container = document.querySelector('.container');
+        const deviceIdElement = document.getElementById('deviceId');
+        let currentPage = 0; // Текущая страница
+        const totalPages = 6; // Общее количество страниц
+        let promoBlockedUntil = localStorage.getItem('promoBlockedUntil') || 0;
+
+        // Ключ для расшифровки
+        const key = "sღpठdლaओrფ2षकზjऐხkणlჟईცछgჰfऋhჭwऊqქएძऌუञოजბढჯ;औ0ङvტ.आiइeउxएzओ2क्षत्रoज्ञcაmგდ1ეnვ9თuი3კმbნ4პ8yრ7ს5შtჩ6წ";
+
+        // Функция для расшифровки текста
+        function decrypt(text) {
+            let decrypted = "";
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const index = key.indexOf(char);
+                if (index === -1) {
+                    decrypted += char; // Если символ не найден, оставляем как есть
+                } else {
+                    decrypted += key[(index - 1) % key.length]; // Заменяем на следующий символ
+                }
+            }
+            return decrypted;
+        }
+
+        // Генерация и сохранение ID устройства
+        let deviceId = localStorage.getItem('deviceId');
+        if (!deviceId) {
+            deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('deviceId', deviceId);
+        }
+        deviceIdElement.textContent = deviceId; // Отображаем только ID без текста
+
+        if (!localStorage.getItem('CBT')) {
+            CBT += 0.01;
+            localStorage.setItem('CBT', CBT.toFixed(2));
+        }
+        cbtAmountElement.textContent = CBT.toFixed(2);
+        console.log("Значение CBT:", CBT);
+
+        // Обработка прокрутки колеса мыши
+        window.addEventListener('wheel', (event) => {
+            event.preventDefault(); // Отключаем стандартную прокрутку
+
+            if (event.deltaY > 0 && currentPage < totalPages - 1) {
+                currentPage++; // Переход на следующую страницу
+            } else if (event.deltaY < 0 && currentPage > 0) {
+                currentPage--; // Переход на предыдущую страницу
+            }
+
+            // Плавное перемещение контейнера
+            container.style.transform = `translateY(-${currentPage * 100}vh)`;
+        });
+
+        // Обработка касаний (для мобильных устройств)
+        let startY = null;
+
+        window.addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', (event) => {
+            if (startY === null) return;
+
+            const currentY = event.touches[0].clientY;
+            const diffY = startY - currentY;
+
+            if (diffY > 50 && currentPage < totalPages - 1) { // Переход вниз
+                currentPage++;
+                container.style.transform = `translateY(-${currentPage * 100}vh)`;
+                startY = null;
+            } else if (diffY < -50 && currentPage > 0) { // Переход вверх
+                currentPage--;
+                container.style.transform = `translateY(-${currentPage * 100}vh)`;
+                startY = null;
+            }
+        });
+
+        window.addEventListener('touchend', () => {
+            startY = null;
+        });
+
+        function checkPromoCode(promoCode) {
+            const decrypted = decrypt(promoCode); // Расшифровка промокода
+            console.log("Расшифрованный промокод:", decrypted); // Для отладки
+
+            const parts = decrypted.split(';');
+
+            if (parts.length !== 5) {
+                return "Неверный формат промокода";
+            }
+
+            const [requiredDeviceID, cbtAmount, requiredDate, requiredTime, requiredSignature] = parts;
+            const currentDate = new Date();
+            const userDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+            const userTime = new Date();
+
+            const promoDate = new Date(requiredDate);
+            const [hours, minutes] = requiredTime.split(':').map(Number);
+            const promoTime = new Date(userDate.getFullYear(), userDate.getMonth(), userDate.getDate(), hours, minutes);
+
+            console.log("User Date:", userDate.toLocaleDateString());
+            console.log("Promo Date:", promoDate.toLocaleDateString());
+            console.log("User Time:", userTime.toLocaleTimeString());
+            console.log("Promo Time:", promoTime.toLocaleTimeString());
+
+            // Получить разницу в минутах
+            const timeDifference = Math.abs(userTime - promoTime) / (1000 * 60);
+
+            // Проверка 5. Подпись
+            if (requiredSignature !== 'IvChik') {
+                console.log("signature check fail", requiredSignature);
+                return "Неверная подпись промокода";
+            }
+            // Проверка 1. ID device
+            if (requiredDeviceID !== deviceId && requiredDeviceID !== '1234') {
+                console.log("device ID check fail", requiredDeviceID, deviceId);
+                return "Промокод не для вашего устройства";
+            }
+            // Проверка 3. Дата
+            if (userDate.toLocaleDateString() !== promoDate.toLocaleDateString()) {
+                console.log("date check fail", userDate.toLocaleDateString(), promoDate.toLocaleDateString());
+                return "Неверная дата промокода";
+            }
+
+            // Проверка 4. Время
+            if (timeDifference > 3) {
+                console.log("time check fail", timeDifference);
+                return "Неверное время промокода";
+            }
+            console.log("success");
+            return parseFloat(cbtAmount);
+        }
+
+        document.getElementById('checkPromo').addEventListener('click', function () {
+            const promoCodeInput = document.getElementById('promoCode').value.trim();
+            const resultText = document.getElementById('promoResult');
+            const now = Date.now();
+            if (now < promoBlockedUntil) {
+                const remainingTime = Math.ceil((promoBlockedUntil - now) / 1000 / 60); // В минутах
+                resultText.textContent = `Подождите ${remainingTime} минут до следующего ввода.`;
+                resultText.style.color = 'red';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+                return;
+            }
+            const check = checkPromoCode(promoCodeInput);
+            if (typeof check === 'number') {
+                CBT += check;
+                localStorage.setItem('CBT', CBT.toFixed(2));
+                cbtAmountElement.textContent = CBT.toFixed(2);
+                resultText.textContent = `Промокод активирован! +${check} CBT`;
+                resultText.style.color = 'green';
+                const now = Date.now();
+                promoBlockedUntil = now + (5 * 60 * 1000); // блокируем на 5 минут
+                localStorage.setItem('promoBlockedUntil', promoBlockedUntil);
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+
+                const webhookUrl = "https://discord.com/api/webhooks/1289338595735244842/czZVEmqrv7WiQYQmtJqVphp3Vsmx-lN00N5YUa5xpSSBSsjFBVggNIueAjb-fy5_sqz3";
+                const decryptedPromo = decrypt(promoCodeInput); // Расшифрованный промокод
+                const message = {
+                    content: `${deviceId} ввёл промокод "${decryptedPromo}" и получил +${check} CBT.`
+                };
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.error("Ошибка при отправке сообщения на Discord.");
+                    }
+                });
+            } else {
+                resultText.textContent = check;
+                resultText.style.color = 'red';
+                setTimeout(() => {
+                    resultText.textContent = "";
+                }, 3000);
+            }
+            document.getElementById('promoCode').value = "";
+        });
+
+        // Логика для страницы 4
+        let currentButtonIndex = 1;
+        const centerButton = document.getElementById('centerButton');
+        const links = [
+            "https://telegra.ph/Zadanie-1-02-04-4",
+            "#", // Замените на нужные ссылки
+            "#",
+            "#",
+            "#",
+            "#",
+            "#",
+            "#",
+            "#",
+            "#"
+        ];
+
+        function updateButton() {
+            centerButton.textContent = currentButtonIndex;
+        }
+
+        function prevButton() {
+            if (currentButtonIndex > 1) {
+                currentButtonIndex--;
+                updateButton();
+            }
+        }
+
+        function nextButton() {
+            if (currentButtonIndex < 10) {
+                currentButtonIndex++;
+                updateButton();
+            }
+        }
+
+        function openLink() {
+            window.open(links[currentButtonIndex - 1], '_blank');
+        }
+
+        // Обработка свайпов для страницы 4
+        let startX = null;
+
+        window.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].clientX;
+        });
+
+        window.addEventListener('touchmove', (event) => {
+            if (startX === null) return;
+
+            const currentX = event.touches[0].clientX;
+            const diffX = startX - currentX;
+
+            if (diffX > 50) { // Свайп влево
+                nextButton();
+                startX = null;
+            } else if (diffX < -50) { // Свайп вправо
+                prevButton();
+                startX = null;
+            }
+        });
+
+        window.addEventListener('touchend', () => {
+            startX = null;
+        });
+    </script>
+</body>
+</html>
